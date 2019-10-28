@@ -1,0 +1,115 @@
+#! /bin/bash
+#
+
+export PYTHONIOENCODING=UTF-8
+startDir=$(pwd)
+OS=$(uname)
+
+if [ "$OS" == "Darwin" ]; then
+OSVERS=$(uname -r | awk -F. '{print $1}')
+#if [ $OSVERS -lt "11" ]; then
+#   echo "The version of MUSEROS you have downloaded is incompatible with your OS"
+#   echo "I'm expecting to run on 10.7, Lion"
+#   exit
+#fi
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/cuda/lib/
+export LD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/cuda/lib/
+else
+if [ "$OS" == "Linux" ]; then
+export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/cuda/lib64/
+export LD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/usr/local/cuda/lib64/
+fi
+fi
+
+export LC_CTYPE=en_US.UTF-8
+
+RUNDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+a_site="socorro"
+
+if [[ -L "$0"  ]]; then
+	real_me=$(stat -f ame%Y "$0")
+	myDir=$(dirname "$real_me")
+	echo -n '==>  '
+else
+	myDir=$(dirname "$0")
+fi
+
+#prefix=$(dirname "${myDir}")
+#echo "mydirprefix" $prefix
+#prefix=$(cd "$( dirname "$RUNDIR" )" && pwd )
+#echo "rundirprefix" $prefix
+#echo "Curr dir:"$0
+prefix=$(readlink $0)
+
+if [ -n "$prefix" ] ; then
+    prefix=$(dirname $prefix |sed -e "s/\/bin//")
+fi
+
+if [ -z "$prefix" ] || [ "$prefix" == "." ]; then
+    prefix=$(cd "$( dirname "$RUNDIR" )" && pwd )
+fi
+
+muser_home="${prefix/*%/*}"
+
+a_root="${prefix}"
+a_host=$(hostname -s)
+a_arch=$(uname -p)
+a_site="${a_site}-${a_arch}"
+a_arch="darwin"
+
+p_root=${prefix}
+p_bind=${p_root}/bin
+
+export   __MUSERPY_PYTHONDIR=${prefix}/bin
+p_path=${__MUSERPY_PYTHONDIR}
+
+anaconda="$HOME/anaconda2"
+
+if [ -d "$anaconda" ]; then
+export PATH="${muser_home}/bin:$HOME/anaconda2/bin":$PATH
+else
+export PATH="${muser_home}/bin":$PATH
+fi
+
+#Check GPU environment
+if [ -d "/usr/local/cuda" ]; then
+   export MUSERGPU=TRUE
+else
+   export MUSERGPU=FALSE
+fi
+
+python_bin=$(dirname `/usr/bin/which python`)
+python_root="${python_bin/*%/*}"
+
+#export PYTHONHOME=${python_root}
+#export PYTHONPATH=${p_libd}/site-packages/readline:${p_path}
+#export PYTHONEXECUTABLE=${prefix}/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python
+
+export DISPLAY=${DISPLAY=:0.0}
+export MUSERHOME=${muser_home}
+export MUSERPATH=${muser_home/bin}
+
+if [ -e "${HOME}/.muser/fontList.cache" -a ! -e "${MPLCONFIGDIR}/fontList.cache" ]; then
+   mv "${HOME}/.muser/fontList.cache" "$MPLCONFIGDIR"
+fi
+
+export TCL_LIBRARY="${prefix}/Resources/tcl"
+export TK_LIBRARY="${prefix}/Resources/tk"
+
+
+#unset  LD_LIBRARY_PATH
+#unset  DYLD_LIBRARY_PATH
+#unset  DYLD_FRAMEWORK_PATH
+#unset  DYLD_FALLBACK_FRAMEWORK_PATH
+
+export TERMINFO="${prefix}/Resources/terminfo"
+
+exec ${python_root}/python ${muser_home}/python/muserpy.py
+#exec -a ${muser_home}/python/muserpy.py ${python_root}/ipython
+#-pylab
+#exec  -a casapy ${prefix}/MacOS/casaCpy $casapy_opts $*
+#exec -a python -W ignore::DeprecationWarning ${prefix}/python/muserpy.py "$@"
+#exec -a ipython ${prefix}/python/muserpy.py "$@"
+#
+# O_o

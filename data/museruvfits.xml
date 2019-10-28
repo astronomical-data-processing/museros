@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+	config.xml
+	Configuration file for UVFITS creation
+
+-->
+
+<config name="MUSER">
+    
+  <notes> 'Configuration file, for array in CSRH.' </notes>
+    
+    <PARAMETERS>
+      <NSTOKES>1     </NSTOKES>
+      <NBAND>  1     </NBAND>
+      <NCHAN>  16  </NCHAN>
+      <NTONE>  1     </NTONE>
+      <NORB>   1     </NORB>
+      <NPOLY>  1     </NPOLY>
+      <NTAB>   1     </NTAB>
+      <NPCAL>  1     </NPCAL>
+    </PARAMETERS>
+
+    <!--
+    
+    PRIMARY header
+    ==============
+    
+    The primary HDU serves three purposes:
+    1. It indicates that the file contains FITS-IDI data.
+    2. It carries general information that applies to all of the FITS-IDI data in the file.
+    3. It carries a record of the processing performed on the data up to the point that
+       the file was written.
+    
+    You need to have these keywords with these values in your header. No exceptions.
+    
+    BITPIX   8
+    NAXIS    0
+    EXTEND   T
+    GROUPS   T
+    GCOUNT   0
+    PCOUNT   0
+    
+    Information about the processing up to the point where the FITS file was created
+    should be recorded in HISTORY records in the primary header.
+    
+    We're also going to add in the CORRELAT keyword, just for the hell of it (it doesn't
+    really have a function at the moment)
+    
+    -->
+
+    <PRIMARY>
+      <BITPIX>8</BITPIX>
+      <NAXIS> 0</NAXIS>
+      <EXTEND>T</EXTEND>
+      <GROUPS>T</GROUPS>
+      <GCOUNT>0</GCOUNT>
+      <PCOUNT>0</PCOUNT>
+    </PRIMARY>
+
+
+    <PRIMARYTable>
+        <OBSRA> 0  </OBSRA>
+        <OBSDEC> 0 </OBSDEC>
+        <TELESCOP> 'MUSER' </TELESCOP>
+        <INSTRUME> 'MUSER' </INSTRUME>
+        <OBJECT> 'MUSER-I' </OBJECT>
+        <EPOCH> 2000. </EPOCH>
+        <BSCALE> 1. </BSCALE>
+        <PSCAL1> 1. </PSCAL1>
+        <PZERO1> 0. </PZERO1>
+        <PSCAL2> 1. </PSCAL2>
+        <PZERO2> 0. </PZERO2>
+        <PSCAL3> 1. </PSCAL3>
+        <PZERO3> 0. </PZERO3>
+        <PSCAL4> 1. </PSCAL4>
+        <PZERO4> 0. </PZERO4>
+        <PSCAL5> 1. </PSCAL5>
+        <PZERO5> 0. </PZERO5>
+        <PSCAL6> 1. </PSCAL6>
+        <PZERO6> 0. </PZERO6>
+        <DATE-OBS> "2014-01-01" </DATE-OBS>
+        <CTYPE2>    'COMPLEX'   </CTYPE2>
+        <CDELT2>    0           </CDELT2>
+        <CRPIX2>    1.000E+00   </CRPIX2>
+        <CRVAL2>    0.000E+00   </CRVAL2>
+        <CTYPE3>    'STOKES'    </CTYPE3>
+        <CDELT3>    -1          </CDELT3>
+        <CRPIX3>    1.0000E+00  </CRPIX3>
+        <CRVAL3>    -1           </CRVAL3>
+        <CTYPE4>    'FREQ'      </CTYPE4>
+        <CDELT4>    25E+06      </CDELT4>
+        <CRPIX4>    1.00000E+00 </CRPIX4>
+        <CRVAL4>    400.000E+06 </CRVAL4>
+        <CTYPE5>    'RA'        </CTYPE5>
+        <CDELT5>    0.000E+00   </CDELT5>
+        <CRPIX5>    1.000E+00   </CRPIX5>
+        <CRVAL5>    0.000E+00   </CRVAL5>        
+        <CTYPE6>    'DEC'       </CTYPE6>
+        <CDELT6>    0.000E+00   </CDELT6>
+        <CRPIX6>    1.000E+00   </CRPIX6>
+        <CRVAL6>    0.000E+00   </CRVAL6>
+    </PRIMARYTable>
+
+
+    <!--
+ 
+    ANTENNA table header
+    ====================
+    
+    Not really that much to do here.
+    
+    The ANTENNA table contains information about the antennas used in a FITS-IDI
+    file that may change with time or with frequency setup. These characteristics
+    include the polarization properties of the feeds and the number of digitizer levels.
+
+    NOPCAL      The number of polarised calibration constants
+    POLTYPE     The feed polarisation parameterisation
+    
+    NOPCAL notes:
+    The ANTENNA table may carry information about the polarization characteristics of the 
+    feeds if this is known. If information about the polarization characteristics of the 
+    feeds is contained in the table then the NOPCAL keyword shall have the value 2. If no
+    information about the polarization characteristics is contained in the table then the
+    NOPCAL keyword shall have the value 0.
+    
+    POLTYPE notes:
+    If the table contains information about the polarization characteristics of the feeds 
+    then the feed parameterization that is used shall be indicated by the value of the POLTYPE
+     keyword as given in Table 23. See “Feed Polarization” on page 17.
+    ‘APPROX’ Linear approximation for circular feeds
+    ‘X-Y LIN’ Linear approximation for linear feeds
+    ‘ORI-ELP’ Orientation and ellipticity
+
+    -->
+
+    <ANTENNA>
+        <EXTNAME> 'AIPS AN'   </EXTNAME>
+        <RDATE>     '2012-11-21'    </RDATE>
+        <NOPCAL>  0         </NOPCAL>
+        <POLTYPE> 'APPROX'  </POLTYPE>
+        <ARRAYX>   -2018660.1921682167   </ARRAYX>
+        <ARRAYY>   4280075.238577609     </ARRAYY>
+        <ARRAYZ>   4263977.5949316146   </ARRAYZ>
+        <FREQ>     400.0E+06      </FREQ>
+        <TIMSYS>   'UTC'          </TIMSYS>
+        <GSTIA0>   121.267028238182 </GSTIA0>
+        <DEGPDY>   360.985 </DEGPDY>
+        <POLARX>   0.12633 </POLARX>
+        <POLARY>   0.30368 </POLARY>
+        <UT1UTC>   0.318725 </UT1UTC>
+        <IATUTC>   33.      </IATUTC>
+        <DATUTC>   33.      </DATUTC>
+        <ARRNAM>   'CSRH'     </ARRNAM>
+        <NUMORB>   0              </NUMORB>
+        <NOPCAL>   3        </NOPCAL>      
+
+    </ANTENNA>
+
+  <!--
+  
+  FREQUENCY table header
+  ======================
+  
+  The FREQUENCY table provides information about the frequency setups used in a 
+  FITS-IDI file. 
+  
+  An important table, but not that much to do in the way of headers.
+  
+  -->
+  
+  <FREQUENCY>
+      <EXTNAME>'AIPS FQ'</EXTNAME>
+      <EXTVER> 1 </EXTVER>
+      <NO_IF> 1 </NO_IF>
+  </FREQUENCY>
+    
+  <!-- 
+  
+  SOURCE table header
+  ===================
+  
+  The SOURCE table contains information about the sources for which data is available
+  in the FITS-IDI file.
+  
+  Again, an important table but not that much config required for headers.
+  
+  -->
+  
+  <SOURCE>
+      <EXTNAME>'AIPS SU'</EXTNAME>
+      <EXTVER> 1 </EXTVER>
+      <NO_IF> 1 </NO_IF>
+      <FREQID> 1 </FREQID>
+
+  </SOURCE>
+
+</config>
