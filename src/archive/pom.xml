@@ -21,7 +21,7 @@
         <!-- 指明使用utf-8编码 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <org.apache.struts.version>2.3.1</org.apache.struts.version>
-        <org.springframework.version>4.0.3.RELEASE</org.springframework.version>
+        <org.springframework.version>4.2.7.RELEASE</org.springframework.version>
     </properties>
     <!-- 指定Maven仓库 -->
     <repositories>
